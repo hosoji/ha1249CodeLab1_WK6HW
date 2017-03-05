@@ -57,7 +57,7 @@ public class PlayerControlPhysics : MonoBehaviour {
 
 		myPSystem.Play ();
 
-		rb.AddForce (dir * Time.deltaTime * speed);
+		rb.AddForce (dir * Time.deltaTime * speed, ForceMode2D.Force);
 		
 		// Rotates plane to towards input direction 
 		float zAngle = Mathf.Atan2(dir.x,dir.y) * Mathf.Rad2Deg * -1;
