@@ -72,7 +72,8 @@ public class GameManager : MonoBehaviour {
 
 		for (int i = 0; i < cities.Length; i++) {
 			string c = cities [i].name.ToString ();
-			Debug.Log (CheckCityWeather (c));
+			string weather = CheckCityWeather (c);
+			LoadCityWeather (cities [i], weather);
 
 		}
 
@@ -143,4 +144,20 @@ public class GameManager : MonoBehaviour {
 		return weather;
 		
 		}
+
+	public void LoadCityWeather(GameObject city, string weather ){
+		Debug.Log (city.name + ": " + weather);
+		if (weather == "Breezy") {
+			GameObject storm = Instantiate(Resources.Load("ThunderStorm") as GameObject);
+			storm.transform.position = city.transform.position;
+			for (int i = 0; i < 3; i++) {
+				GameObject thunderClouds = Instantiate(Resources.Load("ThunderClouds") as GameObject);
+				thunderClouds.transform.parent = storm.transform;
+				Vector2 original  =  storm.transform.position;
+				thunderClouds.transform.position = original + Random.insideUnitCircle * 4;
+			
+			}
+
+		}
+	}
 }

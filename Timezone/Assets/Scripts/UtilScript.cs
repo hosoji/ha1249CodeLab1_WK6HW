@@ -36,7 +36,5 @@ public class UtilScript : MonoBehaviour {
 		return new Vector3 (vec.x, vec.y, vec.z);
 	}
 
-	public static GameObject GetGameObject(string name){
-		return GameObject.Find (name);
-	}
+
 }
