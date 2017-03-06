@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
 
+	public GameObject [] cities;
+
 	public GameObject canvas;
 	public GameObject canvasFuel;
 	Text myText;
@@ -68,42 +70,11 @@ public class GameManager : MonoBehaviour {
 
 		Fuel = FUEL_MAX;
 
-		///////////////////////////////////////
-		//JSON TESTING BEGIN
+		for (int i = 0; i < cities.Length; i++) {
+			string c = cities [i].name.ToString ();
+			Debug.Log (CheckCityWeather (c));
 
-		JSONClass subClass = new JSONClass ();
-
-		subClass ["test"] = "value";
-
-		JSONClass json = new JSONClass();
-
-		json["x"].AsFloat = 7;
-		json["y"].AsFloat = 0;
-		json["z"].AsFloat = 2;
-		json ["name"] = "Hosni";
-		json ["sub"] = subClass;
-
-
-		UtilScript.WriteStringToFile (Application.dataPath, "file.json", json.ToString ());
-		Debug.Log(json);
-
-		string result = UtilScript.ReadStringFromFile (Application.dataPath, "file.json");
-
-		JSONNode readJSON = JSON.Parse (result);
-
-		Debug.Log (readJSON ["z"].AsFloat);
-
-		WebClient client = new WebClient ();
-		string content = client.DownloadString ("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22nome%2C%20ak%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys ");
-
-		JSONNode miami = JSON.Parse (content);
-
-		string weather = miami ["query"] ["results"] ["channel"] ["item"] ["condition"]["text"];
-		print (weather);
-
-		//JSON TESTING END
-		///////////////////////////////////////
-
+		}
 
 
 //		hourVar = System.DateTime.Now.ToString("HH:");
@@ -147,5 +118,29 @@ public class GameManager : MonoBehaviour {
 		}
 
 	}
+
+	public string CheckCityWeather(string city){
+
+		JSONClass json = new JSONClass();
 		
+		UtilScript.WriteStringToFile (Application.dataPath, "file.json", json.ToString ());
+
+
+		string result = UtilScript.ReadStringFromFile (Application.dataPath, "file.json");
+
+		JSONNode readJSON = JSON.Parse (result);
+
+
+		WebClient client = new WebClient ();
+
+		string content = client.DownloadString ("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22" 
+												+ city +"%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
+
+		JSONNode location = JSON.Parse (content);
+
+		string weather = location ["query"] ["results"] ["channel"] ["item"] ["condition"]["text"];
+
+		return weather;
+		
+		}
 }

@@ -35,4 +35,8 @@ public class UtilScript : MonoBehaviour {
 	public static Vector3 CloneVector3(Vector3 vec){
 		return new Vector3 (vec.x, vec.y, vec.z);
 	}
+
+	public static GameObject GetGameObject(string name){
+		return GameObject.Find (name);
+	}
 }
