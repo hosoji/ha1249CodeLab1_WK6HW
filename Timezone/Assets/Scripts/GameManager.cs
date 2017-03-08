@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour {
 
 	public void LoadCityWeather(GameObject city, string weather ){
 		Debug.Log (city.name + ": " + weather);
-		if (weather == "Breezy") {
+		if (weather == "Clear") {
 			GameObject storm = Instantiate(Resources.Load("ThunderStorm") as GameObject);
 			storm.transform.position = city.transform.position;
 			for (int i = 0; i < 3; i++) {
